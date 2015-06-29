@@ -1,0 +1,17 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 text-right">
+			<a href="/events">Schedule Page</a>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<div>List of Users</div>
+			<% @users.each do |user| %>
+			<div>
+				<a href="/users/<%= user.id %>"><%= user.name %></a>
+			</div>
+			<% end  %>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<h1><%= @user.name %>'s Page</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-xs-4">
+			<div>
+				<%= @user.name %> off day is <%= @user_date %>
+			</div>
+			<%= form_for @user do |f| %>
+			<div>
+				<%= f.label :off_day %>
+				<%= f.text_field :off_day , :placeholder => "yyyy-mm-dd"%>
+			</div>
+			<div>
+				<%= f.submit 'Set user\'s offday' %>
+			</div>
+			<% end  %>
+		</div>
+		<div class="col-xs-4">
+			<div><%= @user.name %>'s Support Hero Schedule</div>
+			<% @user.events.each do |event| %>
+				<div>
+					<%= Date.strptime(event.date, "%Y-%m-%d").strftime('%a %d %b %Y') %>
+				</div>
+			<% end  %>
+		</div>
+	</div>
+</div>
+
