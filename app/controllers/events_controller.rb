@@ -32,32 +32,24 @@ class EventsController < ApplicationController
 			end
 			current_day = current_day.next
 		end
-		redirect_to "/events"
+		redirect_to "/"
 	end
 
 	def swap_date
-		old_date = Date.strptime(get_changed_dates["old_date"], "%Y-%m-%d")
-		new_date = Date.strptime(get_changed_dates["new_date"], "%Y-%m-%d")
-		old_event = Event.find_by(date: old_date)
-		new_event = Event.find_by(date: new_date)
+		if !Event.all.empty?
+			old_date = Date.strptime(get_changed_dates["old_date"], "%Y-%m-%d")
+			new_date = Date.strptime(get_changed_dates["new_date"], "%Y-%m-%d")
+			old_event = Event.find_by(date: old_date)
+			new_event = Event.find_by(date: new_date)
 
-		puts "old event id is #{old_event.user_id}"
-		puts "new event id is #{new_event.user_id}"
+			temp_user_id = old_event.user_id
 
-		temp_user_id = old_event.user_id
+			old_event.update(user_id: new_event.user_id)
+			new_event.update(user_id: temp_user_id)
 
-		old_event.update(user_id: new_event.user_id)
-		new_event.update(user_id: temp_user_id)
-
-		puts "old event id is #{old_event.user_id}"
-		puts "new event id is #{new_event.user_id}"
-
-		redirect_to "/events"
+		end
+		redirect_to "/"
 	end
-
-	#Holidays.on() returns an array of holidays on the given date and country
-	#if there are no holidays it returns an empty array so if the array returned is
-	#not empty, return true
 
 	private
 

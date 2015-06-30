@@ -20,18 +20,11 @@ RSpec.describe UsersController, :type => :controller do
 			get :index
 			expect(response).to render_template("index")
 		end
+
+		it "gets all users" do
+			users = User.create!
+			get :index
+			expect(assigns(:users)).to match_array(users)
+		end
 	end
-
-	# describe "GET #show" do
-	# 	it "responds successfully with HTTP 200 status code" do
-	# 		get :show, id: user.id
-	# 		expect(response).to be_success
-	# 		expect(response).to have_http_status(200)
-	# 	end
-
-	# 	# it "renders users/show.html.erb" do
-	# 	# 	get :show
-	# 	# 	expect(response).to render_template("show")
-	# 	# end
-	# end
 end

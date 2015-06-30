@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root 'events#index'
 
-  resources :users, :events 
+  resources :users
   post 'swap_date' => 'events#swap_date'
 
   # Example of regular route:
