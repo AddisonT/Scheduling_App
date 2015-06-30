@@ -1,24 +1,46 @@
 <div class="container">
 	<div class="row">
-		<div class="col-xs-12 text-center">
-			<div>
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4 text-center">
+			<div class="form-for">
 				<%= form_for :date, url: "/events", method: "Post" do |f| %>
 				<%= f.label :start_date %>
-				<%= f.text_field :start_date , :placeholder => "yyyy-mm-dd"%>
+				<%= f.text_field :start_date , :placeholder => "yyyy-mm-dd" , :required => true%>
 				<%= f.submit "Create Schedule" %>
 				<% end  %>
 			</div>
 		</div>
-	</div>
-	<% if !@events.empty? %>
-		<% @events.each do |event|  %>
-		<div class="day">
-			<%= Date.strptime(event.date, "%Y-%m-%d").strftime('%a %d %b %Y') %> 
-			<div>
-				<%= event.user.name %>
-			</div>
+		<div class="col-xs-4 text-right links">
+			<a href="/users">List of Users</a>
 		</div>
-		<% end  %>
-	<% end  %>
+	</div>
+	<div class="row">
+		<%= month_calendar events: @events, table: {class: "table table-bordered"} do |date, events| %>
+		<%= date %>
+
+		<% events.each do |event| %>
+		<div>
+			<a href="/users/<%= event.user.id %>"><%= event.user.name %></a>
+		</div>
+		<% end %>
+		<% end %>
+	</div>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			Swap on-duty day
+		</div>
+		<div class="col-xs-12 text-center">
+			<%= form_for :dates, url: "/swap_date", method: "Post" do |f| %>
+			<%= f.label :old_date %>
+			<%= f.text_field :old_date , :placeholder => "yyyy-mm-dd" , :required => true%>
+
+			<%= f.label :new_date %>
+			<%= f.text_field :new_date , :placeholder => "yyyy-mm-dd" , :required => true%>
+			<%= f.submit "Swap day" %>
+			<% end  %>
+		</div>
+	</div>
 </div>
+
+
 

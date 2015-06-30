@@ -4,10 +4,11 @@ Rails.application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
-  root 'users#index'
+  root 'events#index'
 
-  resources :users 
-  resources :events
+  resources :users, :events 
+  post 'swap_date' => 'events#swap_date'
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
