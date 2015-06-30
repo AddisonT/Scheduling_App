@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
 		update_schedule
 
-		render :show
+		redirect_to "/users/#{params[:id]}"
 	end
 
 	def update_schedule
