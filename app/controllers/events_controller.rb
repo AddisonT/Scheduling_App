@@ -6,31 +6,34 @@ class EventsController < ApplicationController
 	end
 
 	def create
-		Event.delete_all
-		date = get_start_date["start_date"].split("-")
-		first_day = Date.new(date[0].to_i, date[1].to_i, date[2].to_i)
-		user_queue = get_schedule_list
-		current_day = first_day
+		check_date = get_start_date["start_date"].split("-")
 
-		while !user_queue.empty? do 
-			index = 0
-			user = User.find_by(name: user_queue[index])
+		if Date.valid_date?(check_date[0].to_i,check_date[1].to_i,check_date[2].to_i)
+			Event.delete_all
+			first_day = Date.new(check_date[0].to_i, check_date[1].to_i, check_date[2].to_i)
+			user_queue = get_schedule_list
+			current_day = first_day
 
-			if !day_is_holiday_or_weekend?(current_day) && user.off_day != current_day.to_s
-				user.events.create(date: current_day, start_date: get_start_date["start_date"])
-				user_queue.shift
-			end
+			while !user_queue.empty? do 
+				index = 0
+				user = User.find_by(name: user_queue[index])
 
-			if !day_is_holiday_or_weekend?(current_day) && user.off_day == current_day.to_s
-				puts "Sherry should run this statement #{user.off_day} and #{current_day.to_s}"
-				while user.off_day == current_day.to_s do
-					index +=1
-					user = User.find_by(name: user_queue[index])
+				if !day_is_holiday_or_weekend?(current_day) && user.off_day != current_day.to_s
+					user.events.create(date: current_day, start_date: get_start_date["start_date"])
+					user_queue.shift
 				end
-				user.events.create(date: current_day, start_date: get_start_date["start_date"])
-				user_queue.delete_at(index)
+
+				if !day_is_holiday_or_weekend?(current_day) && user.off_day == current_day.to_s
+					puts "Sherry should run this statement #{user.off_day} and #{current_day.to_s}"
+					while user.off_day == current_day.to_s do
+						index +=1
+						user = User.find_by(name: user_queue[index])
+					end
+					user.events.create(date: current_day, start_date: get_start_date["start_date"])
+					user_queue.delete_at(index)
+				end
+				current_day = current_day.next
 			end
-			current_day = current_day.next
 		end
 		redirect_to "/"
 	end
@@ -42,11 +45,12 @@ class EventsController < ApplicationController
 			old_event = Event.find_by(date: old_date)
 			new_event = Event.find_by(date: new_date)
 
-			temp_user_id = old_event.user_id
+			if old_event && new_event
+				temp_user_id = old_event.user_id
 
-			old_event.update(user_id: new_event.user_id)
-			new_event.update(user_id: temp_user_id)
-
+				old_event.update(user_id: new_event.user_id)
+				new_event.update(user_id: temp_user_id)
+			end
 		end
 		redirect_to "/"
 	end

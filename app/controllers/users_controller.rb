@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 	def show
 		@user = User.find(params[:id])
 		if @user.off_day
-			@user_date = Date.strptime(@user.off_day, "%Y-%m-%d").strftime('%a %d %b %Y')
+			@user_off_date = Date.strptime(@user.off_day, "%Y-%m-%d").strftime('%a %d %b %Y')
 		end
 		@user_events = @user.events
 		render :show
@@ -20,14 +20,16 @@ class UsersController < ApplicationController
 
 	def update
 		@user = User.find(params[:id])
-		date = Date.strptime(get_date["off_day"], "%Y-%m-%d")
-		@user.update(off_day: date)
-		@user_date = Date.strptime(@user.off_day, "%Y-%m-%d").strftime('%a %d %b %Y')
+		check_date = get_date["off_day"].split("-")
+		if Date.valid_date?(check_date[0].to_i,check_date[1].to_i,check_date[2].to_i)
+			date = Date.strptime(get_date["off_day"], "%Y-%m-%d")
+			@user.update(off_day: date)
+			@user_off_date = Date.strptime(@user.off_day, "%Y-%m-%d").strftime('%a %d %b %Y')
 
-		if !Event.all.empty?
-			update_schedule
+			if Event.find_by(date: date)
+				update_schedule
+			end
 		end
-
 		redirect_to "/users/#{params[:id]}"
 	end
 
@@ -40,11 +42,12 @@ class UsersController < ApplicationController
 			params.require(:user).permit(:off_day)
 		end
 
+		#updates the schedule after a user has updated his off day
 		def update_schedule
 			user = User.find(params[:id])
 			start = user.events[0].start_date
 			day_values = start.split("-")
-			
+
 			first_day = Date.new(day_values[0].to_i, day_values[1].to_i, day_values[2].to_i)
 			user_queue = get_schedule_list
 			current_day = first_day

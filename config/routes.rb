@@ -6,8 +6,8 @@ Rails.application.routes.draw do
   # root 'welcome#index'
   root 'events#index'
 
-  resources :users
-  post 'swap_date' => 'events#swap_date'
+  resources :users, :events
+  put 'swap_date' => 'events#swap_date'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
