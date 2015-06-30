@@ -9,31 +9,46 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-xs-4">
+		<div class="col-xs-12 text-center">
 			<h2>
 				<%= @user.name %> off day is: 
 			</h2>
 			<div>
+				<h3>
 				<%= @user_date %>
+				</h3>
 			</div>
 			<%= form_for @user do |f| %>
 			<div>
 				<%= f.label :off_day, "Off day:"%>
 				<%= f.text_field :off_day , :placeholder => "yyyy-mm-dd"%>
-			</div>
-			<div>
 				<%= f.submit 'Set off day' %>
 			</div>
 			<% end  %>
 		</div>
-		<div class="col-xs-4 text-center">
+
+	</div>
+	<div class="row">
+		<div class="col-xs-12 text-center">
+			<h2><%= @user.name %>'s Support Hero Schedule</h2>
+		</div>
+<!-- 		<div class="col-xs-12 text-center">
 			<h2><%= @user.name %>'s Support Hero Schedule</h2>
 			<% @user.events.each do |event| %>
 				<div class="event">
 					<%= Date.strptime(event.date, "%Y-%m-%d").strftime('%a %d %b %Y') %>
 				</div>
 			<% end  %>
+		</div> -->
+		<%= month_calendar events: @user_events , table: {class: "table table-bordered"} do |date, events| %>
+		<%= date %>
+
+		<% events.each do |event| %>
+		<div>
+			<%= event.user.name %>
 		</div>
+		<% end %>
+		<% end %>
 	</div>
 </div>
 

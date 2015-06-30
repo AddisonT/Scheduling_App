@@ -1,5 +1,4 @@
 class EventsController < ApplicationController
-	before_filter :set_beginning_of_week
 
 	def index
 		@events = Event.all
@@ -64,10 +63,6 @@ class EventsController < ApplicationController
 
 	def get_changed_dates
 		params.require(:dates).permit(:old_date, :new_date)
-	end
-
-	def set_beginning_of_week
-		Date.beginning_of_week = :sunday
 	end
 
 	def get_start_date
