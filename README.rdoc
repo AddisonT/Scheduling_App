@@ -1,4 +1,31 @@
 On Duty Scheduler App
 
-##Installation
+Description
 
+	Creates a on-duty schedule for Users from an ordered list by providing the starting date the schedule should start at.
+
+	Users:
+	Sherry, Boris, Vicente, Matte, Jack, Kevin, Zoe, Franky, Luis, Eadon, Jay, and James
+
+	Starting Order:
+	[''Sherry'', ''Boris'', ''Vicente'', ''Matte'', ''Jack'', ''Sherry'',
+ ''Matte'', ''Kevin'', ''Kevin'', ''Vicente'', ''Zoe'', ''Kevin'',
+ ''Matte'', ''Zoe'', ''Jay'', ''Boris'', ''Eadon'', ''Sherry'',
+ ''Franky'', ''Sherry'', ''Matte'', ''Franky'', ''Franky'', ''Kevin'',
+ ''Boris'', ''Franky'', ''Vicente'', ''Luis'', ''Eadon'', ''Boris'',
+ ''Kevin'', ''Matte'', ''Jay'', ''James'', ''Kevin'', ''Sherry'',
+ ''Sherry'', ''Jack'', ''Sherry'', ''Jack'']
+
+Usage
+
+	Enter dates in the format YYYY-MM-DD.
+
+	The current date will be highlighted in yellow on the calendars.
+
+	Create a schedule by entering a start date for the schedule.
+
+	Swap a user's duty with another, enter their on-duty dates and the schedule will reschedule accordingly.  
+
+	Navigate to a User's page by selecting the user on the calendar or by clicking the List of Users link at the top right.
+
+	On the User's page, the off day can be set and only has one off day. The User's page will also display his/her specific schedule highlighted in light blue. When the off day is changed, the schedule will reschedule accordingly as well.
