@@ -25,7 +25,7 @@ class EventsController < ApplicationController
 
 				if !day_is_holiday_or_weekend?(current_day) && user.off_day == current_day.to_s
 					puts "Sherry should run this statement #{user.off_day} and #{current_day.to_s}"
-					while user.off_day == current_day.to_s do
+					while user.off_day == current_day.to_s || index >= 40 do
 						index +=1
 						user = User.find_by(name: user_queue[index])
 					end
